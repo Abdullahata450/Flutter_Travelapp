@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CutomsScreen extends StatelessWidget {
@@ -17,7 +16,7 @@ class CutomsScreen extends StatelessWidget {
       body: Stack(
         children: [
           Image.asset(
-            'assets/images/bg44.jpg',
+            'assets/images/bg4.jpg',
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../theams/custom_theam.dart';
+import 'ForgetPassword.dart';
 import 'HomeScreen.dart';
 
 final TextEditingController _emailController = TextEditingController();
@@ -158,7 +159,7 @@ class LoginScreen extends StatelessWidget {
                                       fontWeight: FontWeight.bold),
                                 ),
                                 onTap: () {
-                                  // Navigator.push(context, MaterialPageRoute(builder: (context)=>));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>PasswordResetPage()));
                                 })
                           ],
                         ),
