@@ -1,4 +1,4 @@
-# mad_project1
+# mad_project
 
 A new Flutter project.
 
