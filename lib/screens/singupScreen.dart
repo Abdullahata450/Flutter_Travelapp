@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 import 'loginScreen.dart'; // Import Firebase Authentication
 
@@ -78,11 +79,31 @@ class SignupScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () => _signup(context), // Call signup function
+              onPressed: () => _signup(context),
+
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+                elevation: 5.5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                )
+              ),
+
               child: Text('Sign Up'),
             ),
             SizedBox(height: 30),
             Text("Sign up with"),
+            SizedBox(height: 20,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+               Logo(Logos.facebook_f),
+                Logo(Logos.google),
+                Logo(Logos.twitter),
+                Logo(Logos.apple)
+              ],
+            ),
             SizedBox(height: 19,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -94,18 +115,30 @@ class SignupScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Don\'t have an account ?',
+                Text(
+                  'Have an account ?',
                   style: TextStyle(
                     color: Colors.black,
                   ),
                 ),
-                // GestureDetector(
-                //   onTap: (){
-                //     Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
-                //   },
-                // )
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                    );
+                  },
+                  child: Text(
+                    'Login',
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ],
             )
+
           ],
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mad_project1/screens/singupScreen.dart';
 import '../theams/custom_theam.dart';
 import 'ForgetPassword.dart';
 import 'HomeScreen.dart';
@@ -161,6 +162,7 @@ class LoginScreen extends StatelessWidget {
                                 onTap: () {
                                   Navigator.push(context, MaterialPageRoute(builder: (context)=>PasswordResetPage()));
                                 })
+                            // Navigator.push(context, MaterialPageRoute(builder: (context)=>)
                           ],
                         ),
                         SizedBox(
@@ -195,7 +197,35 @@ class LoginScreen extends StatelessWidget {
                               ),
                             ),
                           ],
+                        ),
+                        SizedBox(height: 20,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Create An Account ! ',
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => SignupScreen()),
+                                );
+                              },
+                              child: Text(
+                                'SginUp', // Assuming 'Login' is the text to navigate to the login screen
+                                style: TextStyle(
+                                  color: Colors.blue, // Change color as desired
+                                  fontWeight: FontWeight.bold, // Optional: Add bold style
+                                ),
+                              ),
+                            ),
+                          ],
                         )
+
                       ],
                     ),
                   ),
