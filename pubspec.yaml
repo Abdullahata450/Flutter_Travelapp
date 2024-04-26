@@ -34,10 +34,17 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+  curved_labeled_navigation_bar: ^2.0.2
+  crystal_navigation_bar: ^1.0.0
+  iconly: ^1.0.1
+  curved_navigation_bar: ^1.0.3
+  google_nav_bar: ^5.0.6
+  dynamic_curved_navigation_bar: ^0.0.2
   cupertino_icons: ^1.0.6
   icons_plus: ^4.0.0
   firebase_core: ^2.30.1
   firebase_auth: ^4.19.3
+
 
 
 dev_dependencies:

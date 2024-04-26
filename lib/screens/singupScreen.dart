@@ -11,14 +11,15 @@ class SignupScreen extends StatelessWidget {
 
   Future<void> _signup(BuildContext context) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       );
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
-      // Signup successful, navigate to next screen or do something else
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => LoginScreen()));
     } catch (e) {
-      // Handle signup errors
+
       print('Signup failed: $e');
       // Display error message to the user
       ScaffoldMessenger.of(context).showSnackBar(
@@ -80,38 +81,41 @@ class SignupScreen extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () => _signup(context),
-
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-                elevation: 5.5,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                )
-              ),
-
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+                  elevation: 5.5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  )),
               child: Text('Sign Up'),
             ),
             SizedBox(height: 30),
             Text("Sign up with"),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-               Logo(Logos.facebook_f),
+                Logo(Logos.facebook_f),
                 Logo(Logos.google),
                 Logo(Logos.twitter),
                 Logo(Logos.apple)
               ],
             ),
-            SizedBox(height: 19,),
+            SizedBox(
+              height: 19,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 // Your social login buttons
               ],
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -138,7 +142,6 @@ class SignupScreen extends StatelessWidget {
                 ),
               ],
             )
-
           ],
         ),
       ),
