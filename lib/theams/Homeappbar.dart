@@ -18,6 +18,7 @@ class HomeAppBar extends StatelessWidget {
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black,
+
                   ),
                 ],
                 borderRadius: BorderRadius.circular(18),
