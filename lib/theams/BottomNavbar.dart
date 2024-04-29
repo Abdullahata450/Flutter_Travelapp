@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
+import '../screens/UserProfileScreen.dart';
+
 class Gnav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -39,6 +41,12 @@ class Gnav extends StatelessWidget {
             GButton(
               icon: Icons.person_2_outlined,
               text: 'Profile',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => UserProfile()),
+                );
+              },
             ),
           ],
         ),
