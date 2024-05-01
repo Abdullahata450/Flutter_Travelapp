@@ -4,9 +4,11 @@ import 'HomePage.dart';
 import 'loginScreen.dart';
 
 class HomeScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -22,65 +24,68 @@ class HomeScreen extends StatelessWidget {
         color: Colors.transparent,
         child: SafeArea(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25, vertical: 65),
+            padding: EdgeInsets.symmetric(
+              horizontal: screenWidth * 0.08, // Adjusted horizontal padding
+              vertical: screenHeight * 0.1, // Adjusted vertical padding
+            ),
             child: Column(
               children: [
                 Expanded(
-                  child: Directionality(
-                    textDirection: TextDirection.ltr,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(
-                          "Enjoy",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 35,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.5,
-                          ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        "Enjoy",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: screenWidth * 0.07, // Adjusted font size
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.5,
                         ),
-                        SizedBox(height: 2),
-                        Text(
-                          "The Beauty Of Pakistan",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 35,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.5,
-                          ),
+                      ),
+                      SizedBox(height: screenHeight * 0.01), // Adjusted spacing
+                      Text(
+                        "The Beauty Of Pakistan",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: screenWidth * 0.07, // Adjusted font size
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.5,
                         ),
-                        SizedBox(height: 12),
-                        Text(
-                          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially",
-                          style: TextStyle(
+                      ),
+                      SizedBox(height: screenHeight * 0.02), // Adjusted spacing
+                      Text(
+                        "In the heart of Pakistan, where the mountains kiss the sky and the rivers dance with joy, lies a land of breathtaking beauty \n From the majestic peaks of the Himalayas to the serene valleys of Kashmir, Pakistan is a canvas painted with nature's finest hues ",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: screenWidth * 0.035, // Adjusted font size
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.2,
+                        ),
+                      ),
+                      SizedBox(height: screenHeight * 0.05), // Adjusted spacing
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Homepage()),
+                          );
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(screenWidth * 0.04), // Adjusted padding
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(screenWidth * 0.04), // Adjusted border radius
+                          ),
+                          child: Icon(
+                            Icons.arrow_forward_ios,
                             color: Colors.black,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.2,
+                            size: screenWidth * 0.06, // Adjusted icon size
                           ),
                         ),
-                        SizedBox(height: 30),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>Homepage()));
-                          },
-                          child: Ink(
-                            padding: EdgeInsets.all(15),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Icon(
-                              Icons.arrow_forward_ios,
-                              color: Colors.black,
-                              size: 20,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ],
