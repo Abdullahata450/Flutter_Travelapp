@@ -6,7 +6,10 @@ import '../Cities/KarchipostScreen.dart';
 import '../Cities/KashmirPostScreen.dart';
 import '../Cities/LahorepostScreen.dart';
 import '../Cities/MultanPostScreen.dart';
+import '../OtherModule/CarRent.dart';
 import '../OtherModule/FlightBooking.dart';
+import '../OtherModule/Maplocation.dart';
+import '../OtherModule/Stays.dart';
 import '../theams/BottomNavbar.dart';
 import '../theams/Homeappbar.dart';
 import 'HomeScreen.dart';
@@ -133,7 +136,7 @@ class Homepage extends StatelessWidget {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => HomeScreen()),
+                                          builder: (context) => Stays()),
                                     );
                                     break;
                                   case 1:
@@ -144,6 +147,13 @@ class Homepage extends StatelessWidget {
                                               FlightBookingPage()),
                                     );
                                     break;
+                                  case 2:
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              CarRent()),
+                                    );
                                 }
                               },
                               child: Container(
@@ -184,7 +194,7 @@ class Homepage extends StatelessWidget {
                     physics: NeverScrollableScrollPhysics(),
                     // Disable scrolling
                     shrinkWrap: true,
-                    itemCount: 6, // Changed itemCount to 6
+                    itemCount: 3, // Changed itemCount to 6
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
                         padding: EdgeInsets.all(8.0), // Add padding as needed

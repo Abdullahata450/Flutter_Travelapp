@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'Pyament.dart';
+
 class FlightBookingPage extends StatefulWidget {
 
 
@@ -182,10 +184,83 @@ class _FlightBookingPageState extends State<FlightBookingPage> {
                     subtitle: Text(
                         'Departure: ${filteredFlightDetails[index]['departureTime']} - Arrival: ${filteredFlightDetails[index]['arrivalTime']}'),
                     trailing: Text('\$${filteredFlightDetails[index]['price']}'),
+                    // Inside the ListTile onTap method
+                    // Inside the ListTile onTap method
                     onTap: () {
-                      // Add booking logic here
-                      print('Booking ticket from ${filteredFlightDetails[index]['fromCity']} to ${filteredFlightDetails[index]['toCity']} on $selectedDate');
+                      int numberOfTickets = 1; // Default number of tickets
+                      int ticketPrice = filteredFlightDetails[index]['price'];
+                      int totalAmount = numberOfTickets * ticketPrice; // Calculate total amount
+
+                      // Show dialog to get the number of tickets
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return StatefulBuilder(
+                            builder: (BuildContext context, StateSetter setState) {
+                              return AlertDialog(
+                                title: Text('Select Number of Tickets'),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    DropdownButtonFormField<int>(
+                                      value: numberOfTickets,
+                                      items: List.generate(10, (index) {
+                                        return DropdownMenuItem<int>(
+                                          value: index + 1,
+                                          child: Text('${index + 1}'),
+                                        );
+                                      }),
+                                      onChanged: (int? newValue) {
+                                        setState(() {
+                                          numberOfTickets = newValue!;
+                                          totalAmount = numberOfTickets * ticketPrice; // Recalculate total amount
+                                        });
+                                      },
+                                    ),
+                                    SizedBox(height: 20),
+                                    Text('Total Amount: \$${totalAmount.toStringAsFixed(2)}'), // Display total amount
+                                  ],
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => PaymentForm(
+                                            airline: filteredFlightDetails[index]['airline'],
+                                            flightNumber: filteredFlightDetails[index]['flightNumber'],
+                                            departureTime: filteredFlightDetails[index]['departureTime'],
+                                            arrivalTime: filteredFlightDetails[index]['arrivalTime'],
+                                            totalprice: totalAmount,
+                                          ),
+                                        ),
+                                      );
+
+
+                                    },
+                                    child: Text('Confirm'),
+                                  ),
+                                ],  // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     // builder: (context) => Payment(),
+                                //   ),
+                                // );
+                              );
+                            },
+                          );
+                        },
+                      );
                     },
+
+
                   ),
                 );
               },
