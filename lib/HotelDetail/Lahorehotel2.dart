@@ -11,6 +11,8 @@ class LahoreHotel2 extends StatelessWidget {
 
   LahoreHotel2({required this.hotel});
 
+  TextEditingController nameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,6 +102,7 @@ class LahoreHotel2 extends StatelessWidget {
                           child: Column(
                             children: <Widget>[
                               TextField(
+                                controller: nameController,
                                 decoration: InputDecoration(
                                   labelText: 'Your Name',
                                 ),
@@ -122,8 +125,9 @@ class LahoreHotel2 extends StatelessWidget {
                         actions: <Widget>[
                           TextButton(
                             onPressed: () {
-                              sendbookMessage();
-
+                              String name=nameController.text;
+                              String msg="Hello ${name} 👋\nCongratulations on reserving our hotel booking Looking Forward To See You! 😀🎉";
+                              sendbookMessage(msg);
                             },
                             child: Text('Confirm'),
                           ),
@@ -139,6 +143,7 @@ class LahoreHotel2 extends StatelessWidget {
                       );
                     },
                   );
+
                 },
                 child: Text('Reserve'),
               ),
