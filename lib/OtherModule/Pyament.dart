@@ -1,20 +1,9 @@
 import 'package:flutter/material.dart';
 
 class PaymentForm extends StatefulWidget {
-  final String airline;
-  final String flightNumber;
-  final String departureTime;
-  final String arrivalTime;
-  final int totalprice;
+  final Map<String, dynamic> flight;
 
-  const PaymentForm({
-    Key? key,
-    required this.airline,
-    required this.flightNumber,
-    required this.departureTime,
-    required this.arrivalTime,
-    required this.totalprice,
-  }) : super(key: key);
+  PaymentForm({required this.flight});
 
   @override
   _PaymentFormState createState() => _PaymentFormState();
@@ -26,7 +15,13 @@ class _PaymentFormState extends State<PaymentForm> {
   TextEditingController cvvController = TextEditingController();
   String selectedPaymentMethod = ''; // Initialize with an empty string
 
-  List<String> paymentMethods = ['Credit Card', 'Debit Card', 'PayPal', 'Google Pay', 'Apple Pay'];
+  List<String> paymentMethods = [
+    'Credit Card',
+    'Debit Card',
+    'PayPal',
+    'Google Pay',
+    'Apple Pay'
+  ];
 
   @override
   void initState() {
@@ -83,7 +78,8 @@ class _PaymentFormState extends State<PaymentForm> {
                   labelText: 'Card Number',
                   border: OutlineInputBorder(),
                 ),
-                enabled: selectedPaymentMethod.isNotEmpty, // Enable only if payment method is selected
+                enabled: selectedPaymentMethod
+                    .isNotEmpty, // Enable only if payment method is selected
               ),
               SizedBox(height: 10),
               Row(
@@ -96,7 +92,8 @@ class _PaymentFormState extends State<PaymentForm> {
                         labelText: 'Expiry Date',
                         border: OutlineInputBorder(),
                       ),
-                      enabled: selectedPaymentMethod.isNotEmpty, // Enable only if payment method is selected
+                      enabled: selectedPaymentMethod
+                          .isNotEmpty, // Enable only if payment method is selected
                     ),
                   ),
                   SizedBox(width: 10),
@@ -108,7 +105,8 @@ class _PaymentFormState extends State<PaymentForm> {
                         labelText: 'CVV',
                         border: OutlineInputBorder(),
                       ),
-                      enabled: selectedPaymentMethod.isNotEmpty, // Enable only if payment method is selected
+                      enabled: selectedPaymentMethod
+                          .isNotEmpty, // Enable only if payment method is selected
                     ),
                   ),
                 ],
@@ -138,11 +136,11 @@ class _PaymentFormState extends State<PaymentForm> {
           children: [
             Text('Thank you for your payment!'),
             SizedBox(height: 10),
-            Text('Airline: ${widget.airline}'),
-            Text('Flight Number: ${widget.flightNumber}'),
-            Text('Departure Time: ${widget.departureTime}'),
-            Text('Arrival Time: ${widget.arrivalTime}'),
-            Text('Price: \$${widget.totalprice}'),
+            Text('Airline: ${widget.flight['airline']['name']}'),
+            Text('Flight Number: ${widget.flight['flight']['number']}'),
+            Text('Departure Time: ${widget.flight['departure']['scheduled']}'),
+            Text('Arrival Time: ${widget.flight['arrival']['scheduled']}'),
+            Text('Price: \$16500'),
           ],
         ),
         actions: <Widget>[

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../HotelDetail/Lahorehotel1.dart';
+import '../HotelDetail/Lahorehotel2.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -27,12 +30,12 @@ class _StaysState extends State<Stays> {
   // Define mapping of cities to their corresponding hotel data
   final Map<String, List<Hotel>> cityHotelData = {
     'Lahore': [
-      Hotel(name: 'Hotel ABC', imageUrl: 'https://www.gstatic.com/webp/gallery3/2.png', price: 100),
-      Hotel(name: 'Hotel XYZ', imageUrl: 'https://www.gstatic.com/webp/gallery3/3.png', price: 150),
+      Hotel(name: 'Indigo Heights Hotel & Suites', imagePath: 'assets/images/lhrh1.jpg', price: 100),
+      Hotel(name: 'Park Lane Hotel', imagePath: 'assets/images/lhrh2.jpg', price: 150),
     ],
     'Karachi': [
-      Hotel(name: 'Hotel DEF', imageUrl: 'https://www.gstatic.com/webp/gallery/4.jpg', price: 120),
-      Hotel(name: 'Hotel GHI', imageUrl: 'https://www.gstatic.com/webp/gallery/5.jpg', price: 130),
+      Hotel(name: 'Hotel DEF', imagePath: '', price: 120),
+      Hotel(name: 'Hotel GHI', imagePath: '', price: 130),
     ],
     // Add more cities and their hotel data as needed
   };
@@ -139,23 +142,50 @@ class HotelCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          Image.network(
-            hotel.imageUrl,
-            height: 150,
-            width: double.infinity,
-            fit: BoxFit.cover,
-          ),
-          ListTile(
-            title: Text(hotel.name),
-            subtitle: Text('Price: \$${hotel.price.toStringAsFixed(2)}'),
-            onTap: () {
-              // Handle hotel selection, booking, etc.
-              // You can navigate to another page for booking or implement it here.
-            },
-          ),
-        ],
+      child: InkWell(
+        onTap: () {
+          // Navigate to a different page based on the hotel's data
+          switch (hotel.name) {
+            case 'Indigo Heights Hotel & Suites':
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LahoreHotel1(hotel: hotel),
+                ),
+              );
+              break;
+            case 'Park Lane Hotel':
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LahoreHotel2(hotel: hotel),
+                ),
+              );
+              break;
+          // Add cases for more hotels if needed
+            default:
+            // Do nothing
+          }
+        },
+        child: Column(
+          children: [
+            hotel.imagePath.isNotEmpty
+                ? Image.asset(
+              hotel.imagePath,
+              height: 150,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            )
+                : Placeholder( // Placeholder if imagePath is empty
+              fallbackHeight: 150,
+              fallbackWidth: double.infinity,
+            ),
+            ListTile(
+              title: Text(hotel.name),
+              subtitle: Text('Price: \$${hotel.price.toStringAsFixed(2)}'),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -163,8 +193,8 @@ class HotelCard extends StatelessWidget {
 
 class Hotel {
   final String name;
-  final String imageUrl;
+  final String imagePath;
   final double price;
 
-  Hotel({required this.name, required this.imageUrl, required this.price});
+  Hotel({required this.name, required this.imagePath, required this.price});
 }

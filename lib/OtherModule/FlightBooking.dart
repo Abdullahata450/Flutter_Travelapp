@@ -1,279 +1,266 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 import 'Pyament.dart';
 
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: FlightBookingPage(),
+    );
+  }
+}
+
 class FlightBookingPage extends StatefulWidget {
-
-
-
   @override
   _FlightBookingPageState createState() => _FlightBookingPageState();
 }
 
 class _FlightBookingPageState extends State<FlightBookingPage> {
-  String selectedFromCity = 'Karachi';
-  String selectedToCity = 'Islamabad';
-  DateTime selectedDate = DateTime.now();
-
-  List<Map<String, dynamic>> flightDetails = [
-    {
-      'fromCity': 'Karachi',
-      'toCity': 'Islamabad',
-      'flightNumber': 'ABC123',
-      'airline': 'Airline A',
-      'departureTime': '08:00 AM',
-      'arrivalTime': '10:00 AM',
-      'price': 200,
-    },
-    {
-      'fromCity': 'Karachi',
-      'toCity': 'Lahore',
-      'flightNumber': 'XYZ456',
-      'airline': 'Airline B',
-      'departureTime': '10:30 AM',
-      'arrivalTime': '12:30 PM',
-      'price': 250,
-    },
-    {
-      'fromCity': 'Lahore',
-      'toCity': 'Karachi',
-      'flightNumber': 'DEF789',
-      'airline': 'Airline C',
-      'departureTime': '02:00 PM',
-      'arrivalTime': '04:00 PM',
-      'price': 180,
-    },
-    {
-      'fromCity': 'Lahore',
-      'toCity': 'Quetta',
-      'flightNumber': 'GHI234',
-      'airline': 'Airline D',
-      'departureTime': '05:30 PM',
-      'arrivalTime': '07:30 PM',
-      'price': 300,
-    },
-    {
-      'fromCity': 'Lahore',
-      'toCity': 'Islamabad',
-      'flightNumber': 'JKL567',
-      'airline': 'Airline E',
-      'departureTime': '09:00 AM',
-      'arrivalTime': '11:00 AM',
-      'price': 220,
-    },
-  ];
-
-  List<Map<String, dynamic>> filteredFlightDetails = [];
+  String origin = '';
+  String destination = '';
+  List<Map<String, dynamic>> flights = [];
+  List<Map<String, dynamic>> filteredFlights = [];
+  DateTime selectedDate = DateTime.now(); // Add this line
 
   @override
   void initState() {
     super.initState();
-    filterFlightDetails();
+    loadFlightData();
   }
 
-  void filterFlightDetails() {
-    filteredFlightDetails = flightDetails
-        .where((flight) =>
-    flight['fromCity'] == selectedFromCity &&
-        flight['toCity'] == selectedToCity)
-        .toList();
+  Future<void> loadFlightData() async {
+    String jsonData = await rootBundle.loadString('assets/flight_data.json');
+    Map<String, dynamic> jsonDataMap = jsonDecode(jsonData);
+    setState(() {
+      flights = List<Map<String, dynamic>>.from(jsonDataMap['data']);
+    });
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flight Booking'),
+        title: Text('Flight Search'),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            // From city selection
-            DropdownButtonFormField<String>(
-              value: selectedFromCity,
-              items: <String>['Karachi', 'Islamabad', 'Lahore', 'Quetta']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedFromCity = newValue!;
-                  filterFlightDetails();
-                });
-              },
-              decoration: InputDecoration(
-                labelText: 'From',
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              // Search fields
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      origin = value;
+                    });
+                  },
+                  decoration: InputDecoration(
+                      labelText: 'Origin',
+                      hintText: 'Enter origin city',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20))),
+                ),
               ),
-            ),
-            SizedBox(height: 20),
-
-            // To city selection
-            DropdownButtonFormField<String>(
-              value: selectedToCity,
-              items: <String>['Islamabad', 'Lahore', 'Karachi', 'Quetta']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedToCity = newValue!;
-                  filterFlightDetails();
-                });
-              },
-              decoration: InputDecoration(
-                labelText: 'To',
+              SizedBox(height: 20.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      destination = value;
+                    });
+                  },
+                  decoration: InputDecoration(
+                      labelText: 'Destination',
+                      hintText: 'Enter destination city',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      )),
+                ),
               ),
-            ),
-            SizedBox(height: 20),
-
-            // Date selection
-            InkWell(
-              onTap: () async {
-                final pickedDate = await showDatePicker(
-                  context: context,
-                  initialDate: selectedDate,
-                  firstDate: DateTime.now(),
-                  lastDate: DateTime(2101),
-                );
-                if (pickedDate != null && pickedDate != selectedDate) {
+              SizedBox(height: 20.0),
+              ElevatedButton(
+                onPressed: () => _selectDate(context),
+                child: Text(
+                    'Select Date :  ${selectedDate.toString().substring(0, 10)}',
+                    style: TextStyle(fontSize: 16.0)),
+              ),
+              // Search Button
+              // ElevatedButton(
+              //   onPressed: () {
+              //     ElevatedButton.styleFrom(
+              //         foregroundColor: Colors.yellow
+              //     );
+              //     // Filter flights based on origin and destination
+              //     setState(() {
+              //       filteredFlights = flights.where((flight) {
+              //         String departureCity = flight['departure']['city'];
+              //         String arrivalCity = flight['arrival']['city'];
+              //         return departureCity.toLowerCase() == origin.toLowerCase() &&
+              //             arrivalCity.toLowerCase() == destination.toLowerCase();
+              //       }).toList();
+              //     });
+              //   },
+              //   child: Text('Search Flights'),
+              //
+              // ),
+              SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // Filter flights based on origin and destination
                   setState(() {
-                    selectedDate = pickedDate;
+                    filteredFlights = flights.where((flight) {
+                      String departureCity = flight['departure']['city'];
+                      String arrivalCity = flight['arrival']['city'];
+                      return departureCity.toLowerCase() ==
+                              origin.toLowerCase() &&
+                          arrivalCity.toLowerCase() ==
+                              destination.toLowerCase();
+                    }).toList();
                   });
-                }
-              },
-              child: Container(
-                height: 35,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Text(
-                        '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                    Icon(Icons.calendar_today),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-
-            // Display filtered flight details
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: filteredFlightDetails.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  child: ListTile(
-                    title: Text(
-                        '${filteredFlightDetails[index]['airline']} - ${filteredFlightDetails[index]['flightNumber']}'),
-                    subtitle: Text(
-                        'Departure: ${filteredFlightDetails[index]['departureTime']} - Arrival: ${filteredFlightDetails[index]['arrivalTime']}'),
-                    trailing: Text('\$${filteredFlightDetails[index]['price']}'),
-                    // Inside the ListTile onTap method
-                    // Inside the ListTile onTap method
-                    onTap: () {
-                      int numberOfTickets = 1; // Default number of tickets
-                      int ticketPrice = filteredFlightDetails[index]['price'];
-                      int totalAmount = numberOfTickets * ticketPrice; // Calculate total amount
-
-                      // Show dialog to get the number of tickets
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return StatefulBuilder(
-                            builder: (BuildContext context, StateSetter setState) {
-                              return AlertDialog(
-                                title: Text('Select Number of Tickets'),
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    DropdownButtonFormField<int>(
-                                      value: numberOfTickets,
-                                      items: List.generate(10, (index) {
-                                        return DropdownMenuItem<int>(
-                                          value: index + 1,
-                                          child: Text('${index + 1}'),
-                                        );
-                                      }),
-                                      onChanged: (int? newValue) {
-                                        setState(() {
-                                          numberOfTickets = newValue!;
-                                          totalAmount = numberOfTickets * ticketPrice; // Recalculate total amount
-                                        });
-                                      },
-                                    ),
-                                    SizedBox(height: 20),
-                                    Text('Total Amount: \$${totalAmount.toStringAsFixed(2)}'), // Display total amount
-                                  ],
-                                ),
-                                actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Text('Cancel'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => PaymentForm(
-                                            airline: filteredFlightDetails[index]['airline'],
-                                            flightNumber: filteredFlightDetails[index]['flightNumber'],
-                                            departureTime: filteredFlightDetails[index]['departureTime'],
-                                            arrivalTime: filteredFlightDetails[index]['arrivalTime'],
-                                            totalprice: totalAmount,
-                                          ),
-                                        ),
-                                      );
-
-
-                                    },
-                                    child: Text('Confirm'),
-                                  ),
-                                ],  // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     // builder: (context) => Payment(),
-                                //   ),
-                                // );
-                              );
-                            },
-                          );
-                        },
-                      );
-                    },
-
-
+                },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  // Background color
+                  backgroundColor: Colors.indigo.shade200,
+                  // Text color
+                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                );
-              },
-            ),
-          ],
+                  elevation: 3, // Shadow elevation
+                ),
+                child: Text('Search Flights'),
+              ),
+
+              SizedBox(height: 20.0),
+              // Display filtered flight data
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: filteredFlights.length,
+                itemBuilder: (context, index) {
+                  return FlightCard(flight: filteredFlights[index]);
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-// void main() {
-//   runApp(MaterialApp(
-//     home: FlightBookingPage(),
-//   ));
-// }
+class FlightCard extends StatelessWidget {
+  final Map<String, dynamic> flight;
+
+  FlightCard({required this.flight});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        _showTicketMessage(context, flight); // Pass flight data to the method
+      },
+      child: Card(
+        color: Colors.yellow.shade100,
+        child: ListTile(
+          title: Text(
+            '${flight['airline']['name']} - ${flight['flight']['number']}',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+          ),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Departure: ${flight['departure']['airport']} \n Time : ${flight['departure']['scheduled']}',
+                style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.indigo),
+              ),
+              Text(
+                  'Arrival: ${flight['arrival']['airport']} \n Time: ${flight['arrival']['scheduled']}',
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.green.shade800)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+void _showTicketMessage(BuildContext context, Map<String, dynamic> flight) {
+  // Accept flight data as a parameter
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: Colors.indigo.shade200,
+        title: Text(
+          'Buy Ticket',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        content: Text(
+            'Do you want to buy a ticket for this flight? \n Price 16500 Rs',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                fontSize: 20)),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              // Close the dialog
+              Navigator.of(context).pop();
+            },
+            child: Text('No',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, color: Colors.white)),
+          ),
+          TextButton(
+            onPressed: () {
+              // Navigate to ticket purchase screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PaymentForm(flight: flight)),
+              );
+            },
+            child: Text('Yes',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                )),
+          ),
+        ],
+      );
+    },
+  );
+}

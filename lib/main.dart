@@ -5,6 +5,7 @@ import 'package:mad_project1/screens/Welcomscreen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   runApp(myapp());
 }
 class myapp extends StatelessWidget{

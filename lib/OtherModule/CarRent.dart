@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../screens/HomePage.dart';
 import '../theams/BottomNavbar.dart';
+import 'StripePayment.dart';
 
 class CarRent extends StatelessWidget {
   @override
@@ -199,13 +200,19 @@ class CarList extends StatelessWidget {
                           )
                       ),
                       onPressed: () {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => myStrip(),
+                        //   ),
+                        // );
                         // Add functionality to rent the car
                         // For now, just show a toast message
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text("You rented ${cars[index]["name"]}"),
-                          ),
-                        );
+                        // ScaffoldMessenger.of(context).showSnackBar(
+                        //   SnackBar(
+                        //     content: Text("You rented ${cars[index]["name"]}"),
+                        //   ),
+                        // );
                       },
                       child: Text("Rent",style: TextStyle(fontWeight: FontWeight.bold),),
                     ),

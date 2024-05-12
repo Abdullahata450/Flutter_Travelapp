@@ -15,7 +15,13 @@ Future<void> _login(BuildContext context) async {
       email: _emailController.text,
       password: _passwordController.text,
     );
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+    if(userCredential.user!=null && userCredential.user!.email=='admin@gmail.com'){
+
+    }
+    else{
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => HomeScreen()));
+    }
   } catch (e) {
     // Handle login errors
     print('Login failed: $e');
@@ -160,7 +166,11 @@ class LoginScreen extends StatelessWidget {
                                       fontWeight: FontWeight.bold),
                                 ),
                                 onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>PasswordResetPage()));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              PasswordResetPage()));
                                 })
                             // Navigator.push(context, MaterialPageRoute(builder: (context)=>)
                           ],
@@ -174,7 +184,7 @@ class LoginScreen extends StatelessWidget {
                             SizedBox(
                               width: 350, // Set the width of the button
                               child: ElevatedButton(
-                                onPressed: ()=>_login(context),
+                                onPressed: () => _login(context),
                                 style: ElevatedButton.styleFrom(
                                   foregroundColor: Colors.blue,
                                   // Background color
@@ -198,7 +208,9 @@ class LoginScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: 20,),
+                        SizedBox(
+                          height: 20,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -212,20 +224,22 @@ class LoginScreen extends StatelessWidget {
                               onTap: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => SignupScreen()),
+                                  MaterialPageRoute(
+                                      builder: (context) => SignupScreen()),
                                 );
                               },
                               child: Text(
-                                'SginUp', // Assuming 'Login' is the text to navigate to the login screen
+                                'SginUp',
+                                // Assuming 'Login' is the text to navigate to the login screen
                                 style: TextStyle(
                                   color: Colors.blue, // Change color as desired
-                                  fontWeight: FontWeight.bold, // Optional: Add bold style
+                                  fontWeight: FontWeight
+                                      .bold, // Optional: Add bold style
                                 ),
                               ),
                             ),
                           ],
                         )
-
                       ],
                     ),
                   ),

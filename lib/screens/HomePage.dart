@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../Cities/IslamabadPostScreen.dart';
 import '../Cities/KPKpostScreen.dart';
 import '../Cities/KarchipostScreen.dart';
@@ -151,8 +152,7 @@ class Homepage extends StatelessWidget {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              CarRent()),
+                                          builder: (context) => CarRent()),
                                     );
                                 }
                               },
@@ -230,7 +230,8 @@ class Homepage extends StatelessWidget {
                                   left: 0,
                                   right: 0,
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
@@ -254,7 +255,8 @@ class Homepage extends StatelessWidget {
                                           direction: Axis.horizontal,
                                           allowHalfRating: true,
                                           itemCount: 5,
-                                          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                                          itemPadding: EdgeInsets.symmetric(
+                                              horizontal: 4.0),
                                           itemBuilder: (context, _) => Icon(
                                             Icons.favorite,
                                             color: Colors.amber,
@@ -274,7 +276,13 @@ class Homepage extends StatelessWidget {
                       );
                     },
                   ),
-                ],
+                  ElevatedButton(onPressed: (){
+                    saveData("exampleKey", 2);
+                  }, child: Text("Save Data")),
+                  ElevatedButton(onPressed: (){
+                    retriveData("exampleKey");
+                  }, child: Text("Retrive data"))
+                ],///
               ),
             ),
           ),
@@ -283,5 +291,15 @@ class Homepage extends StatelessWidget {
       ),
     );
   }
+}
+void saveData(String key, int value) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString(key, value as String);
+  print("Data saved to shared preferences");
+}
+void retriveData(String key) async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? value = prefs.getString(key);
+  print("Retrieved data: $value");
 }
 

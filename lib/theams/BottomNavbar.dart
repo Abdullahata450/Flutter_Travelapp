@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
+import '../screens/HomePage.dart';
 import '../screens/UserProfileScreen.dart';
 
 class Gnav extends StatelessWidget {
@@ -34,6 +35,10 @@ class Gnav extends StatelessWidget {
               icon: Icons.home,
               iconSize: screenWidth * 0.06, // Adjusted icon size
               text: 'Home',
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>Homepage()));
+              }
+
               // onPressed: ,
             ),
             GButton(
