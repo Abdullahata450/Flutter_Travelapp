@@ -20,7 +20,7 @@ class CarRent extends StatelessWidget {
             bottom: TabBar(
               tabs: [
                 Tab(child:Text("Honda",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.purple.shade400,fontSize: 20),)),
-                Tab(child:Text("Corolla",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.purple.shade400,fontSize: 20),)),
+                Tab(child:Text("Toyota",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.purple.shade400,fontSize: 20),)),
                 Tab(child:Text("Suzuki",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.purple.shade400,fontSize: 20),)),
               ],
             ),
@@ -65,34 +65,34 @@ class CarList extends StatelessWidget {
 
     List<Map<String, dynamic>> corollaCars = [
       {
-        "name": "Corolla Car Model 1",
-        "image": "assets/images/corolla1.jpg",
+        "name": "Toyota Corolla",
+        "image": "assets/images/corolla.jpg",
         "seats": 5,
         "engineType": "Petrol",
         "price": "\$70/day",
       },
       {
-        "name": "Corolla Car Model 2",
-        "image": "assets/images/corolla2.jpg",
-        "seats": 5,
-        "engineType": "Hybrid",
-        "price": "\$80/day",
+        "name": "Toyota Fortuiner ",
+        "image": "assets/images/fortuiner.jpg",
+        "seats": 7,
+        "engineType": "Diesel",
+        "price": "\$90/day",
       },
     ];
 
     List<Map<String, dynamic>> suzukiCars = [
       {
-        "name": "Suzuki Car Model 1",
-        "image": "assets/images/suzuki1.jpg",
+        "name": "Suzuki Swift",
+        "image": "assets/images/Swift.jpg",
         "seats": 5,
         "engineType": "Petrol",
         "price": "\$90/day",
       },
       {
-        "name": "Suzuki Car Model 2",
-        "image": "assets/images/suzuki2.jpg",
-        "seats": 5,
-        "engineType": "CNG",
+        "name": "Suzuki Every",
+        "image": "assets/images/Every.jpg",
+        "seats": 8,
+        "engineType": "Petrol",
         "price": "\$100/day",
       },
     ];

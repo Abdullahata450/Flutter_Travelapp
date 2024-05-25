@@ -51,6 +51,12 @@ dependencies:
   cloud_firestore: ^4.17.2
   google_maps_flutter: ^2.6.1
   shared_preferences: ^2.2.3
+  ticket_widget: ^1.0.2
+  pdf: ^3.10.8
+  printing: ^5.12.0
+  path_provider: ^2.1.3
+
+
 #  flutter_stripe: ^10.1.1
 
 dev_dependencies:

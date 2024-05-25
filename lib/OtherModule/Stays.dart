@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../HotelDetail/Lahorehotel1.dart';
 import '../HotelDetail/Lahorehotel2.dart';
+import '../HotelDetail/IslamabadHotel1.dart';
+import '../HotelDetail/IslamabadHotel2.dart';
+import '../HotelDetail/KarachiHotel1.dart';
+import '../HotelDetail/KarachiHotel2.dart';
+import '../HotelDetail/KashmirHotel1.dart'; // Changed from KPKHotel1.dart to KashmirHotel1.dart
+import '../HotelDetail/KashmirHotel2.dart'; // Changed from KPKHotel2.dart to KashmirHotel2.dart
+import '../HotelDetail/MultanHotel1.dart';
+import '../HotelDetail/MultanHotel2.dart';
 
 void main() {
   runApp(MyApp());
@@ -27,17 +35,27 @@ class Stays extends StatefulWidget {
 }
 
 class _StaysState extends State<Stays> {
-  // Define mapping of cities to their corresponding hotel data
   final Map<String, List<Hotel>> cityHotelData = {
     'Lahore': [
       Hotel(name: 'Indigo Heights Hotel & Suites', imagePath: 'assets/images/lhrh1.jpg', price: 100),
       Hotel(name: 'Park Lane Hotel', imagePath: 'assets/images/lhrh2.jpg', price: 150),
     ],
-    'Karachi': [
-      Hotel(name: 'Hotel DEF', imagePath: '', price: 120),
-      Hotel(name: 'Hotel GHI', imagePath: '', price: 130),
+    'Islamabad': [
+      Hotel(name: 'Ramada by Wyndham Islamabad', imagePath: 'assets/images/islh1.png', price: 120),
+      Hotel(name: 'SK Residence', imagePath: 'assets/images/islh2.png', price: 130),
     ],
-    // Add more cities and their hotel data as needed
+    'Karachi': [
+      Hotel(name: 'four squares hotel', imagePath: 'assets/images/karh1.png', price: 120),
+      Hotel(name: 'Hotel 7', imagePath: 'assets/images/karh2.png', price: 130),
+    ],
+    'Kashmir': [ // Changed from 'KPK' to 'Kashmir'
+      Hotel(name: 'Srinagar Homes', imagePath: 'assets/images/kpk1.jpg', price: 110),
+      Hotel(name: 'Pearl Continental Hotel, Muzaffarabad', imagePath: 'assets/images/kpk2.jpg', price: 140),
+    ],
+    'Multan': [
+      Hotel(name: 'Hotel One Lalazar Multan', imagePath: 'assets/images/mult1.jpg', price: 110),
+      Hotel(name: 'S Chalet Multan', imagePath: 'assets/images/mult3.jpg', price: 140),
+    ],
   };
 
   List<String> filteredCities = [];
@@ -162,7 +180,70 @@ class HotelCard extends StatelessWidget {
                 ),
               );
               break;
-          // Add cases for more hotels if needed
+            case 'Ramada by Wyndham Islamabad':
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => IslamabadHotel1(hotel: hotel),
+                ),
+              );
+              break;
+            case 'SK Residence':
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => IslamabadHotel2(hotel: hotel),
+                ),
+              );
+              break;
+            case 'four squares hotel':
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => KarachiHotel1(hotel: hotel),
+                ),
+              );
+              break;
+            case 'Hotel 7':
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => KarachiHotel2(hotel: hotel),
+                ),
+              );
+              break;
+            case 'Srinagar Homes':
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => KPKHotel1(hotel: hotel), // Changed from KPKHotel1 to KashmirHotel1
+                ),
+              );
+              break;
+            case 'Pearl Continental Hotel, Muzaffarabad':
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => KPKHotel1(hotel: hotel), // Changed from KPKHotel2 to KashmirHotel2
+                ),
+              );
+              break;
+            case 'Hotel One Lalazar Multan':
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MultanHotel1(hotel: hotel),
+                ),
+              );
+              break;
+            case 'S Chalet Multan':
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MultanHotel2(hotel: hotel),
+                ),
+              );
+              break;
             default:
             // Do nothing
           }

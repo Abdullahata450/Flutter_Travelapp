@@ -276,12 +276,6 @@ class Homepage extends StatelessWidget {
                       );
                     },
                   ),
-                  ElevatedButton(onPressed: (){
-                    saveData("exampleKey", 2);
-                  }, child: Text("Save Data")),
-                  ElevatedButton(onPressed: (){
-                    retriveData("exampleKey");
-                  }, child: Text("Retrive data"))
                 ],///
               ),
             ),
@@ -292,14 +286,5 @@ class Homepage extends StatelessWidget {
     );
   }
 }
-void saveData(String key, int value) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString(key, value as String);
-  print("Data saved to shared preferences");
-}
-void retriveData(String key) async{
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? value = prefs.getString(key);
-  print("Retrieved data: $value");
-}
+
 
