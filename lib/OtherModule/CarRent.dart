@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../screens/HomePage.dart';
 import '../theams/BottomNavbar.dart';
+import 'Carpayment.dart';
 import 'StripePayment.dart';
 
 class CarRent extends StatelessWidget {
@@ -37,7 +38,6 @@ class CarRent extends StatelessWidget {
     );
   }
 }
-
 class CarList extends StatelessWidget {
   final String carType;
 
@@ -45,21 +45,20 @@ class CarList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Dummy car data for demonstration
     List<Map<String, dynamic>> hondaCars = [
       {
         "name": "Make Honda Model Civic",
         "image": "assets/images/honda1.jpg",
         "seats": 4,
         "engineType": "Petrol",
-        "price": "\$50/day",
+        "price": 50,
       },
       {
         "name": "Make Honda Model Jeep",
         "image": "assets/images/honda2.jpg",
         "seats": 7,
         "engineType": "Diesel",
-        "price": "\$60/day",
+        "price": 60,
       },
     ];
 
@@ -69,14 +68,14 @@ class CarList extends StatelessWidget {
         "image": "assets/images/corolla.jpg",
         "seats": 5,
         "engineType": "Petrol",
-        "price": "\$70/day",
+        "price": 70,
       },
       {
         "name": "Toyota Fortuiner ",
         "image": "assets/images/fortuiner.jpg",
         "seats": 7,
         "engineType": "Diesel",
-        "price": "\$90/day",
+        "price": 90,
       },
     ];
 
@@ -86,14 +85,14 @@ class CarList extends StatelessWidget {
         "image": "assets/images/Swift.jpg",
         "seats": 5,
         "engineType": "Petrol",
-        "price": "\$90/day",
+        "price": 90,
       },
       {
         "name": "Suzuki Every",
         "image": "assets/images/Every.jpg",
         "seats": 8,
         "engineType": "Petrol",
-        "price": "\$100/day",
+        "price": 100,
       },
     ];
 
@@ -114,9 +113,7 @@ class CarList extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      Homepage()),
+              MaterialPageRoute(builder: (context) => Homepage()),
             );
           },
         ),
@@ -124,6 +121,7 @@ class CarList extends StatelessWidget {
       body: ListView.builder(
         itemCount: cars.length,
         itemBuilder: (BuildContext context, int index) {
+          int price = cars[index]["price"];
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Card(
@@ -180,7 +178,7 @@ class CarList extends StatelessWidget {
                           ),
                           SizedBox(height: 10),
                           Text(
-                            "Price: ${cars[index]["price"]}",
+                            "Price: \Rs${price.toString()} /day",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
@@ -192,29 +190,22 @@ class CarList extends StatelessWidget {
                     SizedBox(width: 10),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.deepPurple,
-                          foregroundColor: Colors.white,
-                          padding: EdgeInsets.symmetric(vertical: 15,horizontal: 20),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          )
+                        backgroundColor: Colors.deepPurple,
+                        foregroundColor: Colors.white,
+                        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
                       onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => myStrip(),
-                        //   ),
-                        // );
-                        // Add functionality to rent the car
-                        // For now, just show a toast message
-                        // ScaffoldMessenger.of(context).showSnackBar(
-                        //   SnackBar(
-                        //     content: Text("You rented ${cars[index]["name"]}"),
-                        //   ),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PaymentForm(car: cars[index]),
+                          ),
+                        );
                       },
-                      child: Text("Rent",style: TextStyle(fontWeight: FontWeight.bold),),
+                      child: Text("Rent", style: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                   ],
                 ),
@@ -223,10 +214,11 @@ class CarList extends StatelessWidget {
           );
         },
       ),
-      bottomNavigationBar:  Gnav(),
+      bottomNavigationBar: Gnav(),
     );
   }
 }
+
 
 void main() {
   runApp(CarRent());
