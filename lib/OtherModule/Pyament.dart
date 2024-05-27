@@ -2,9 +2,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:pdf/widgets.dart' as pw;
-import 'package:printing/printing.dart';
 import 'package:ticket_widget/ticket_widget.dart';
 
 class PaymentForm extends StatefulWidget {
@@ -179,18 +176,18 @@ class _PaymentFormState extends State<PaymentForm> {
           appBar: AppBar(
             title: const Text('Payment Successful'),
           ),
-          body: Ticket(flight: widget.flight, userName: _userName),
+          body: Tickets(flight: widget.flight, userName: _userName),
         ),
       ),
     );
   }
 }
 
-class Ticket extends StatelessWidget {
+class Tickets extends StatelessWidget {
   final Map<String, dynamic> flight;
   final String userName;
 
-  Ticket({required this.flight, required this.userName});
+  Tickets({required this.flight, required this.userName});
 
   @override
   Widget build(BuildContext context) {

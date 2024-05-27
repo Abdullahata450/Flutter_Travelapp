@@ -126,7 +126,7 @@ class LahoreHotel2 extends StatelessWidget {
                           TextButton(
                             onPressed: () {
                               String name=nameController.text;
-                              String msg="Hello ${name} 👋\nCongratulations on reserving our hotel booking Looking Forward To See You! 😀🎉";
+                              String msg="Hello ${name} 👋\nCongratulations on reserving our ${hotel.name} booking Looking Forward To See You! 😀🎉";
                               sendbookMessage(msg);
                             },
                             child: Text('Confirm'),
