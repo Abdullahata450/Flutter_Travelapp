@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 import 'loginScreen.dart'; // Import Firebase Authentication
@@ -36,7 +36,6 @@ await FirebaseFirestore.instance.collection('users').add({
   'Email': _emailController.text.trim(),
   'Password': _passwordController.text.trim(),
 });
-
 }
   @override
   Widget build(BuildContext context) {

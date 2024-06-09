@@ -14,6 +14,7 @@ import '../OtherModule/Stays.dart';
 import '../theams/BottomNavbar.dart';
 import '../theams/Homeappbar.dart';
 import 'HomeScreen.dart';
+import 'guidScreen.dart';
 
 void main() {
   runApp(Homepage());
@@ -32,7 +33,7 @@ class Homepage extends StatelessWidget {
     "Stays",
     "Flight",
     "Car Rental",
-    "Airport Taxi",
+    "Avail Guides",
     "Map",
   ];
 
@@ -153,6 +154,13 @@ class Homepage extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => CarRent()),
+                                    );
+                                    break;
+                                  case 3:
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => GuidScreen()),
                                     );
                                 }
                               },
