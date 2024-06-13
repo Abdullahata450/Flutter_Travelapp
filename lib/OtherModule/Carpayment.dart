@@ -150,6 +150,7 @@ class _CardFormState extends State<CardForm> {
   TextEditingController cardNumberController = TextEditingController();
   TextEditingController expiryDateController = TextEditingController();
   TextEditingController cvvController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   List<String> paymentMethods = ["Credit Card", "Debit Card", "Net Banking"];
 
   late String selectedPaymentMethod;
@@ -170,99 +171,136 @@ class _CardFormState extends State<CardForm> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Select Payment Method:',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 10),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(8),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Select Payment Method:',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                child: DropdownButton<String>(
-                  value: selectedPaymentMethod,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedPaymentMethod = newValue!;
-                    });
+                SizedBox(height: 10),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: DropdownButton<String>(
+                    value: selectedPaymentMethod,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedPaymentMethod = newValue!;
+                      });
+                    },
+                    items: paymentMethods.map((method) {
+                      return DropdownMenuItem<String>(
+                        value: method,
+                        child: Text(method),
+                      );
+                    }).toList(),
+                  ),
+                ),
+                SizedBox(height: 20),
+                TextFormField(
+                  controller: cardNumberController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'Card Number',
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter 16-digit card number',
+                  ),
+                  enabled: selectedPaymentMethod.isNotEmpty,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your card number';
+                    }
+                    if (value.length != 16) {
+                      return 'Card number must be 16 digits';
+                    }
+                    return null;
                   },
-                  items: paymentMethods.map((method) {
-                    return DropdownMenuItem<String>(
-                      value: method,
-                      child: Text(method),
-                    );
-                  }).toList(),
                 ),
-              ),
-              SizedBox(height: 20),
-              TextFormField(
-                controller: cardNumberController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: 'Card Number',
-                  border: OutlineInputBorder(),
-                ),
-                enabled: selectedPaymentMethod.isNotEmpty,
-              ),
-              SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: expiryDateController,
-                      keyboardType: TextInputType.datetime,
-                      decoration: InputDecoration(
-                        labelText: 'Expiry Date',
-                        border: OutlineInputBorder(),
-                      ),
-                      enabled: selectedPaymentMethod.isNotEmpty,
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: TextFormField(
-                      controller: cvvController,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        labelText: 'CVV',
-                        border: OutlineInputBorder(),
-                      ),
-                      enabled: selectedPaymentMethod.isNotEmpty,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  String msg="Hello ${widget.userName} 👋\n🌟 Congratulations on booking your car! 🌟 \n Thank you for choosing our service. We're thrilled to have you on board and look forward to making your journey comfortable and enjoyable \n 🚗 Car Details:\n ${widget.car['name']} \n For any Qurries Contact abdullahbinata450@gmail.com ";
-                  sendbookMessage(msg);
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => Ticket(
-                        car: widget.car,
-                        userName: widget.userName, days: widget.days,
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: expiryDateController,
+                        keyboardType: TextInputType.datetime,
+                        decoration: InputDecoration(
+                          labelText: 'Expiry Date',
+                          hintText: 'MM/YY',
+                          border: OutlineInputBorder(),
+                        ),
+                        enabled: selectedPaymentMethod.isNotEmpty,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter expiry date';
+                          }
+                          // Simple regex to match MM/YY format
+                          // if (!RegExp(r'^\d{2}/\d{2}$').hasMatch(value)) {
+                          //   return 'Expiry date must be in MM/YY format';
+                          // }
+                          return null;
+                        },
                       ),
                     ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.black,
-                  backgroundColor: Colors.amber.shade200,
-                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  elevation: 3,
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: TextFormField(
+                        controller: cvvController,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          labelText: 'CVV',
+                          border: OutlineInputBorder(),
+                          hintText: 'Enter 3-digit CVV',
+                        ),
+                        enabled: selectedPaymentMethod.isNotEmpty,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter CVV';
+                          }
+                          if (value.length != 3) {
+                            return 'CVV must be 3 digits';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-                child: Text('Make Payment'),
-              ),
-            ],
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState?.validate() ?? false) {
+                      String msg = "Hello ${widget.userName} 👋\n🌟 Congratulations on booking your car! 🌟 \n Thank you for choosing our service. We're thrilled to have you on board and look forward to making your journey comfortable and enjoyable \n 🚗 Car Details:\n ${widget.car['name']} \n For any Queries Contact abdullahbinata450@gmail.com ";
+                      sendbookMessage(msg);
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => Ticket(
+                            car: widget.car,
+                            userName: widget.userName,
+                            days: widget.days,
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.black,
+                    backgroundColor: Colors.amber.shade200,
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    elevation: 3,
+                  ),
+                  child: Text('Make Payment'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

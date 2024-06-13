@@ -290,6 +290,8 @@ class Homepage extends StatelessWidget {
           ),
         ),
         bottomNavigationBar: Gnav(),
+
+
       ),
     );
   }

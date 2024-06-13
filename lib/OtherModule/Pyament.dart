@@ -17,6 +17,7 @@ class _PaymentFormState extends State<PaymentForm> {
   TextEditingController cardNumberController = TextEditingController();
   TextEditingController expiryDateController = TextEditingController();
   TextEditingController cvvController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   String selectedPaymentMethod = '';
   late User _currentUser;
   late Stream<QuerySnapshot<Map<String, dynamic>>> _userDataStream;
@@ -72,81 +73,114 @@ class _PaymentFormState extends State<PaymentForm> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Select Payment Method:',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 10),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(8),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Select Payment Method:',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                child: DropdownButton<String>(
-                  value: selectedPaymentMethod,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedPaymentMethod = newValue ?? '';
-                    });
+                SizedBox(height: 10),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: DropdownButton<String>(
+                    value: selectedPaymentMethod,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedPaymentMethod = newValue ?? '';
+                      });
+                    },
+                    items: paymentMethods.map((method) {
+                      return DropdownMenuItem<String>(
+                        value: method,
+                        child: Text(method),
+                      );
+                    }).toList(),
+                  ),
+                ),
+                SizedBox(height: 20),
+                TextFormField(
+                  controller: cardNumberController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'Card Number',
+                    hintText: 'Enter your card number',
+                    border: OutlineInputBorder(),
+                  ),
+                  enabled: selectedPaymentMethod.isNotEmpty,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your card number';
+                    }
+                    if (value.length != 16) {
+                      return 'Card number must be 16 digits';
+                    }
+                    return null;
                   },
-                  items: paymentMethods.map((method) {
-                    return DropdownMenuItem<String>(
-                      value: method,
-                      child: Text(method),
-                    );
-                  }).toList(),
                 ),
-              ),
-              SizedBox(height: 20),
-              TextFormField(
-                controller: cardNumberController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: 'Card Number',
-                  border: OutlineInputBorder(),
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: expiryDateController,
+                        keyboardType: TextInputType.datetime,
+                        decoration: InputDecoration(
+                          labelText: 'Expiry Date',
+                          hintText: 'MM/YY',
+                          border: OutlineInputBorder(),
+                        ),
+                        enabled: selectedPaymentMethod.isNotEmpty,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter expiry date';
+                          }
+                          // Add more validation for date format if necessary
+                          return null;
+                        },
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: TextFormField(
+                        controller: cvvController,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          labelText: 'CVV',
+                          hintText: '333',
+                          border: OutlineInputBorder(),
+                        ),
+                        enabled: selectedPaymentMethod.isNotEmpty,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter CVV';
+                          }
+                          if (value.length != 3) {
+                            return 'CVV must be 3 digits';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-                enabled: selectedPaymentMethod.isNotEmpty,
-              ),
-              SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: expiryDateController,
-                      keyboardType: TextInputType.datetime,
-                      decoration: InputDecoration(
-                        labelText: 'Expiry Date',
-                        border: OutlineInputBorder(),
-                      ),
-                      enabled: selectedPaymentMethod.isNotEmpty,
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: TextFormField(
-                      controller: cvvController,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        labelText: 'CVV',
-                        border: OutlineInputBorder(),
-                      ),
-                      enabled: selectedPaymentMethod.isNotEmpty,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  _showPaymentSuccessDialog();
-                },
-                child: Text('Make Payment'),
-              ),
-            ],
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState?.validate() ?? false) {
+                      _showPaymentSuccessDialog();
+                    }
+                  },
+                  child: Text('Make Payment'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

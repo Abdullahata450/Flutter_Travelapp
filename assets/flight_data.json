@@ -86,13 +86,13 @@
       },
       "airline": {
         "name": "Air Blue",
-        "iata": "PK",
-        "icao": "PIA"
+        "iata": "AB",
+        "icao": "ABE"
       },
       "flight": {
         "number": "1022",
-        "iata": "PK1004",
-        "icao": "PIA1004",
+        "iata": "AB1022",
+        "icao": "ABE1022",
         "codeshared": null
       }
     },
@@ -141,8 +141,197 @@
         "icao": "PIA2005",
         "codeshared": null
       }
+    },
+    {
+      "flight_date": "2019-12-14",
+      "flight_status": "active",
+      "departure": {
+        "airport": "Skardu Airport",
+        "city": "Skardu",
+        "country": "Pakistan",
+        "timezone": "Asia/Karachi",
+        "iata": "KDU",
+        "icao": "OPSD",
+        "terminal": "1",
+        "gate": "C1",
+        "delay": 10,
+        "scheduled": "2019-12-14T08:00:00+00:00",
+        "estimated": "2019-12-14T08:10:00+00:00",
+        "actual": "2019-12-14T08:15:00+00:00",
+        "estimated_runway": "2019-12-14T08:20:00+00:00",
+        "actual_runway": "2019-12-14T08:25:00+00:00"
+      },
+      "arrival": {
+        "airport": "Islamabad International Airport",
+        "city": "Islamabad",
+        "country": "Pakistan",
+        "timezone": "Asia/Karachi",
+        "iata": "ISB",
+        "icao": "OPIS",
+        "terminal": "A",
+        "gate": "A1",
+        "baggage": "A5",
+        "delay": 5,
+        "scheduled": "2019-12-14T09:30:00+00:00",
+        "estimated": "2019-12-14T09:35:00+00:00",
+        "actual": "2019-12-14T09:40:00+00:00"
+      },
+      "airline": {
+        "name": "Pakistan International Airlines",
+        "iata": "PK",
+        "icao": "PIA"
+      },
+      "flight": {
+        "number": "5001",
+        "iata": "PK5001",
+        "icao": "PIA5001",
+        "codeshared": null
+      }
+    },
+    {
+      "flight_date": "2019-12-15",
+      "flight_status": "active",
+      "departure": {
+        "airport": "Gilgit Airport",
+        "city": "Gilgit",
+        "country": "Pakistan",
+        "timezone": "Asia/Karachi",
+        "iata": "GIL",
+        "icao": "OPGT",
+        "terminal": "1",
+        "gate": "B2",
+        "delay": 0,
+        "scheduled": "2019-12-15T07:00:00+00:00",
+        "estimated": "2019-12-15T07:00:00+00:00",
+        "actual": "2019-12-15T07:00:00+00:00",
+        "estimated_runway": "2019-12-15T07:00:00+00:00",
+        "actual_runway": "2019-12-15T07:00:00+00:00"
+      },
+      "arrival": {
+        "airport": "Islamabad International Airport",
+        "city": "Islamabad",
+        "country": "Pakistan",
+        "timezone": "Asia/Karachi",
+        "iata": "ISB",
+        "icao": "OPIS",
+        "terminal": "A",
+        "gate": "A2",
+        "baggage": "A6",
+        "delay": 0,
+        "scheduled": "2019-12-15T08:15:00+00:00",
+        "estimated": "2019-12-15T08:15:00+00:00",
+        "actual": "2019-12-15T08:15:00+00:00",
+        "estimated_runway": "2019-12-15T08:15:00+00:00",
+        "actual_runway": "2019-12-15T08:15:00+00:00"
+      },
+      "airline": {
+        "name": "Serene Air",
+        "iata": "ER",
+        "icao": "SE1"
+      },
+      "flight": {
+        "number": "3010",
+        "iata": "ER3010",
+        "icao": "SE13010",
+        "codeshared": null
+      }
+    },
+    {
+      "flight_date": "2019-12-16",
+      "flight_status": "active",
+      "departure": {
+        "airport": "Quetta International Airport",
+        "city": "Quetta",
+        "country": "Pakistan",
+        "timezone": "Asia/Karachi",
+        "iata": "UET",
+        "icao": "OPQT",
+        "terminal": "1",
+        "gate": "B1",
+        "delay": 0,
+        "scheduled": "2019-12-16T09:00:00+00:00",
+        "estimated": "2019-12-16T09:00:00+00:00",
+        "actual": "2019-12-16T09:00:00+00:00",
+        "estimated_runway": "2019-12-16T09:00:00+00:00",
+        "actual_runway": "2019-12-16T09:00:00+00:00"
+      },
+      "arrival": {
+        "airport": "Jinnah International Airport",
+        "city": "Karachi",
+        "country": "Pakistan",
+        "timezone": "Asia/Karachi",
+        "iata": "KHI",
+        "icao": "OPKC",
+        "terminal": "A",
+        "gate": "A3",
+        "baggage": "A8",
+        "delay": 0,
+        "scheduled": "2019-12-16T10:15:00+00:00",
+        "estimated": "2019-12-16T10:15:00+00:00",
+        "actual": "2019-12-16T10:15:00+00:00",
+        "estimated_runway": "2019-12-16T10:15:00+00:00",
+        "actual_runway": "2019-12-16T10:15:00+00:00"
+      },
+      "airline": {
+        "name": "AirSial",
+        "iata": "PF",
+        "icao": "ASF"
+      },
+      "flight": {
+        "number": "2025",
+        "iata": "PF2025",
+        "icao": "ASF2025",
+        "codeshared": null
+      }
+    },
+    {
+      "flight_date": "2019-12-17",
+      "flight_status": "active",
+      "departure": {
+        "airport": "Bacha Khan International Airport",
+        "city": "Peshawar",
+        "country": "Pakistan",
+        "timezone": "Asia/Karachi",
+        "iata": "PEW",
+        "icao": "OPPS",
+        "terminal": "1",
+        "gate": "C2",
+        "delay": 5,
+        "scheduled": "2019-12-17T07:45:00+00:00",
+        "estimated": "2019-12-17T07:50:00+00:00",
+        "actual": "2019-12-17T07:55:00+00:00",
+        "estimated_runway": "2019-12-17T08:00:00+00:00",
+        "actual_runway": "2019-12-17T08:05:00+00:00"
+      },
+      "arrival": {
+        "airport": "Islamabad International Airport",
+        "city": "Islamabad",
+        "country": "Pakistan",
+        "timezone": "Asia/Karachi",
+        "iata": "ISB",
+        "icao": "OPIS",
+        "terminal": "A",
+        "gate": "A4",
+        "baggage": "A9",
+        "delay": 0,
+        "scheduled": "2019-12-17T09:30:00+00:00",
+        "estimated": "2019-12-17T09:30:00+00:00",
+        "actual": "2019-12-17T09:30:00+00:00",
+        "estimated_runway": "2019-12-17T09:30:00+00:00",
+        "actual_runway": "2019-12-17T09:30:00+00:00"
+      },
+      "airline": {
+        "name": "Shaheen Air",
+        "iata": "NL",
+        "icao": "SAI"
+      },
+      "flight": {
+        "number": "4050",
+        "iata": "NL4050",
+        "icao": "SAI4050",
+        "codeshared": null
+      }
     }
-
-
   ]
 }
+

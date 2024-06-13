@@ -27,7 +27,17 @@ class _FlightBookingPageState extends State<FlightBookingPage> {
   String destination = '';
   List<Map<String, dynamic>> flights = [];
   List<Map<String, dynamic>> filteredFlights = [];
-  DateTime selectedDate = DateTime.now(); // Add this line
+  DateTime selectedDate = DateTime.now();
+  final _formKey = GlobalKey<FormState>();
+  final List<String> cities = [
+    'Lahore',
+    'Karachi',
+    'Islamabad',
+    'Peshawar',
+    'Quetta',
+    'Faisalabad',
+    'Skardu'
+  ];
 
   @override
   void initState() {
@@ -66,108 +76,116 @@ class _FlightBookingPageState extends State<FlightBookingPage> {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              // Search fields
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: TextField(
-                  onChanged: (value) {
-                    setState(() {
-                      origin = value;
-                    });
-                  },
-                  decoration: InputDecoration(
-                      labelText: 'Origin',
-                      hintText: 'Enter origin city',
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20))),
-                ),
-              ),
-              SizedBox(height: 20.0),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: TextField(
-                  onChanged: (value) {
-                    setState(() {
-                      destination = value;
-                    });
-                  },
-                  decoration: InputDecoration(
-                      labelText: 'Destination',
-                      hintText: 'Enter destination city',
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                // Search fields
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: TextFormField(
+                    onChanged: (value) {
+                      setState(() {
+                        origin = value;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Origin eg: Lahore',
+                      hintText: 'Enter city name',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
-                      )),
-                ),
-              ),
-              SizedBox(height: 20.0),
-              ElevatedButton(
-                onPressed: () => _selectDate(context),
-                child: Text(
-                    'Select Date :  ${selectedDate.toString().substring(0, 10)}',
-                    style: TextStyle(fontSize: 16.0)),
-              ),
-              // Search Button
-              // ElevatedButton(
-              //   onPressed: () {
-              //     ElevatedButton.styleFrom(
-              //         foregroundColor: Colors.yellow
-              //     );
-              //     // Filter flights based on origin and destination
-              //     setState(() {
-              //       filteredFlights = flights.where((flight) {
-              //         String departureCity = flight['departure']['city'];
-              //         String arrivalCity = flight['arrival']['city'];
-              //         return departureCity.toLowerCase() == origin.toLowerCase() &&
-              //             arrivalCity.toLowerCase() == destination.toLowerCase();
-              //       }).toList();
-              //     });
-              //   },
-              //   child: Text('Search Flights'),
-              //
-              // ),
-              SizedBox(
-                height: 20,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  // Filter flights based on origin and destination
-                  setState(() {
-                    filteredFlights = flights.where((flight) {
-                      String departureCity = flight['departure']['city'];
-                      String arrivalCity = flight['arrival']['city'];
-                      return departureCity.toLowerCase() ==
-                              origin.toLowerCase() &&
-                          arrivalCity.toLowerCase() ==
-                              destination.toLowerCase();
-                    }).toList();
-                  });
-                },
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  // Background color
-                  backgroundColor: Colors.indigo.shade200,
-                  // Text color
-                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a city name';
+                      }
+                      if (!cities.contains(value)) {
+                        return 'Please enter a valid city name in Pakistan';
+                      }
+                      return null;
+                    },
                   ),
-                  elevation: 3, // Shadow elevation
                 ),
-                child: Text('Search Flights'),
-              ),
-
-              SizedBox(height: 20.0),
-              // Display filtered flight data
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: filteredFlights.length,
-                itemBuilder: (context, index) {
-                  return FlightCard(flight: filteredFlights[index]);
-                },
-              ),
-            ],
+                SizedBox(height: 20.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: TextFormField(
+                    onChanged: (value) {
+                      setState(() {
+                        destination = value;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Destination eg: Karachi',
+                      hintText: 'Enter city name',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a city name';
+                      }
+                      if (!cities.contains(value)) {
+                        return 'Please enter a valid city name in Pakistan';
+                      }
+                      if (!cities.any((city) => city.toLowerCase() == value.toLowerCase())) {
+                        return 'Please enter a valid city name in Pakistan';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                SizedBox(height: 20.0),
+                ElevatedButton(
+                  onPressed: () => _selectDate(context),
+                  child: Text(
+                    'Select Date: ${selectedDate.toString().substring(0, 10)}',
+                    style: TextStyle(fontSize: 16.0),
+                  ),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState?.validate() ?? false) {
+                      // Filter flights based on origin and destination
+                      setState(() {
+                        filteredFlights = flights.where((flight) {
+                          String departureCity = flight['departure']['city'];
+                          String arrivalCity = flight['arrival']['city'];
+                          return departureCity.toLowerCase() ==
+                              origin.toLowerCase() &&
+                              arrivalCity.toLowerCase() ==
+                                  destination.toLowerCase();
+                        }).toList();
+                      });
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    // Background color
+                    backgroundColor: Colors.indigo.shade200,
+                    // Text color
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    elevation: 3, // Shadow elevation
+                  ),
+                  child: Text('Search Flights'),
+                ),
+                SizedBox(height: 20.0),
+                // Display filtered flight data
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: filteredFlights.length,
+                  itemBuilder: (context, index) {
+                    return FlightCard(flight: filteredFlights[index]);
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
