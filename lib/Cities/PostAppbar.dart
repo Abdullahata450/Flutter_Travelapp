@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class PostAppbar extends StatelessWidget{
   Widget build(BuildContext context) {
-    return Padding(padding:EdgeInsets.all(20),
+    return Padding(padding:EdgeInsets.symmetric(horizontal: 10,vertical: 50),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

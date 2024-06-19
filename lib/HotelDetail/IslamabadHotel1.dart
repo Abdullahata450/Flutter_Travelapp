@@ -2,11 +2,19 @@ import 'package:flutter/material.dart';
 import '../OtherModule/Stays.dart';
 import '../theams/Sendbookingmsg.dart';
 
-class IslamabadHotel1 extends StatelessWidget {
+class IslamabadHotel1 extends StatefulWidget {
   final Hotel hotel;
-  TextEditingController nameController = TextEditingController();
 
   IslamabadHotel1({required this.hotel});
+
+  @override
+  _IslamabadHotel1State createState() => _IslamabadHotel1State();
+}
+
+class _IslamabadHotel1State extends State<IslamabadHotel1> {
+  TextEditingController nameController = TextEditingController();
+  List<String> roomTypes = ['Standard', 'Deluxe', 'Suite'];
+  String selectedRoomType = 'None'; // Default selected room type
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +31,7 @@ class IslamabadHotel1 extends StatelessWidget {
               padding: EdgeInsets.all(16.0),
               color: Colors.blue,
               child: Text(
-                hotel.name, // Use actual hotel name
+                widget.hotel.name, // Use actual hotel name from widget
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24.0,
@@ -38,7 +46,7 @@ class IslamabadHotel1 extends StatelessWidget {
               height: 200,
               fit: BoxFit.cover,
             ),
-            SizedBox(height: 10,),
+            SizedBox(height: 10),
             Image.asset(
               'assets/images/islh4.png', // Replace with actual image asset path
               height: 200,
@@ -51,14 +59,14 @@ class IslamabadHotel1 extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.center, // Align children vertically
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Icon(
-                        Icons.location_on, // Location icon
+                        Icons.location_on,
                         color: Colors.grey,
                       ),
-                      SizedBox(width: 8.0), // Add spacing between icon and text
-                      Expanded( // Use Expanded to allow the text to take all available space
+                      SizedBox(width: 8.0),
+                      Expanded(
                         child: Text(
                           '123 Islamabad Road, Islamabad, Pakistan', // Use actual hotel location
                           style: TextStyle(
@@ -69,18 +77,17 @@ class IslamabadHotel1 extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 8.0), // Add spacing between text and subtitle
+                  SizedBox(height: 8.0),
                   Text(
                     'Deluxe Suite \n Free Wi-Fi \n Swimming Pool', // Use actual nearby attractions
                     style: TextStyle(
-                        fontSize: 17,
-                        color: Colors.grey.shade900
+                      fontSize: 17,
+                      color: Colors.grey.shade900,
                     ),
                   ),
                 ],
               ),
             ),
-
 
             // Reserve Button
             Padding(
@@ -90,50 +97,74 @@ class IslamabadHotel1 extends StatelessWidget {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text('Reservation'),
-                        content: SingleChildScrollView(
-                          child: Column(
-                            children: <Widget>[
-                              TextField(
-                                controller: nameController,
-                                decoration: InputDecoration(
-                                  labelText: 'Your Name',
-                                ),
+                      return StatefulBuilder(
+                        builder: (BuildContext context, StateSetter setState) {
+                          return AlertDialog(
+                            title: Text('Reservation'),
+                            content: SingleChildScrollView(
+                              child: Column(
+                                children: <Widget>[
+                                  TextField(
+                                    controller: nameController,
+                                    decoration: InputDecoration(
+                                      labelText: 'Your Name',
+                                    ),
+                                  ),
+                                  TextField(
+                                    decoration: InputDecoration(
+                                      labelText: 'Number of People',
+                                    ),
+                                    keyboardType: TextInputType.number,
+                                  ),
+                                  TextField(
+                                    decoration: InputDecoration(
+                                      labelText: 'Phone Number',
+                                    ),
+                                    keyboardType: TextInputType.phone,
+                                  ),
+                                  SizedBox(height: 16.0),
+                                  DropdownButtonFormField(
+                                    value: selectedRoomType,
+                                    onChanged: (String? value) {
+                                      setState(() {
+                                        selectedRoomType = value!;
+                                      });
+                                    },
+                                    items: roomTypes.map((String roomType) {
+                                      return DropdownMenuItem<String>(
+                                        value: roomType,
+                                        child: Text(roomType),
+                                      );
+                                    }).toList(),
+                                    decoration: InputDecoration(
+                                      labelText: 'Room Type',
+                                      border: OutlineInputBorder(),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              TextField(
-                                decoration: InputDecoration(
-                                  labelText: 'Number of People',
-                                ),
-                                keyboardType: TextInputType.number,
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  String name = nameController.text;
+                                  String msg =
+                                      "Hello $name 👋\nCongratulations on reserving our hotel booking. Looking forward to seeing you! 😀🎉";
+                                  sendbookMessage(msg);
+                                },
+                                child: Text('Confirm'),
                               ),
-                              TextField(
-                                decoration: InputDecoration(
-                                  labelText: 'Phone Number',
-                                ),
-                                keyboardType: TextInputType.phone,
+                              TextButton(
+                                onPressed: () {
+                                  // Handle reservation cancellation
+                                  Navigator.of(context).pop();
+                                  // Add your logic for canceling the reservation here
+                                },
+                                child: Text('Cancel'),
                               ),
                             ],
-                          ),
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () {
-                              String name=nameController.text;
-                              String msg="Hello ${name} 👋\nCongratulations on reserving our hotel booking Looking Forward To See You! 😀🎉";
-                              sendbookMessage(msg);
-                            },
-                            child: Text('Confirm'),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              // Handle reservation cancellation
-                              Navigator.of(context).pop();
-                              // Add your logic for canceling the reservation here
-                            },
-                            child: Text('Cancel'),
-                          ),
-                        ],
+                          );
+                        },
                       );
                     },
                   );

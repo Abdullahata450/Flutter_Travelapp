@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../OtherModule/Stays.dart';
+import '../screens/guidScreen.dart';
 import 'PostAppbar.dart';
 
 class KarachipostScreen extends StatelessWidget {
@@ -71,7 +73,7 @@ class KarachipostScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(15),
                               child: Image.asset(
-                                "assets/images/lahore1.jpg",
+                                "assets/images/Karachi1.jpeg",
                                 fit: BoxFit.cover,
                                 height: 120,
                               ),
@@ -84,7 +86,7 @@ class KarachipostScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(15),
                               child: Image.asset(
-                                "assets/images/lahore2.jpg",
+                                "assets/images/Karachi2.jpeg",
                                 fit: BoxFit.cover,
                                 height: 120,
                               ),
@@ -102,7 +104,7 @@ class KarachipostScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(15),
                               child: Image.asset(
-                                "assets/images/lahore3.jpg",
+                                "assets/images/Karachi3.jpeg",
                                 fit: BoxFit.cover,
                                 height: 120,
                               ),
@@ -115,7 +117,7 @@ class KarachipostScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(15),
                               child: Image.asset(
-                                "assets/images/lahore4.jpg",
+                                "assets/images/Karachi4.jpeg",
                                 fit: BoxFit.cover,
                                 height: 120,
                               ),
@@ -130,7 +132,11 @@ class KarachipostScreen extends StatelessWidget {
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            // Handle first button press
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Stays()),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.black,
@@ -145,7 +151,11 @@ class KarachipostScreen extends StatelessWidget {
                         SizedBox(height: 10),
                         ElevatedButton(
                           onPressed: () {
-                            // Handle second button press
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => GuidScreen()),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.black,
@@ -155,7 +165,7 @@ class KarachipostScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10),
                               )
                           ),
-                          child: Text('Rent Car',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
+                          child: Text('Book Tour Guid',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
                         ),
                       ],
                     )

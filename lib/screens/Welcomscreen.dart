@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mad_project1/screens/singupScreen.dart';
-
 import '../theams/custom_theam.dart';
 import 'loginScreen.dart';
 

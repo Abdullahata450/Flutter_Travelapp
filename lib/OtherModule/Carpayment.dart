@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:ticket_widget/ticket_widget.dart';
-
-import '../theams/Sendbookingmsg.dart';
+import '../theams/Sendbookingmsg.dart'; // Make sure this import is correct and exists
 
 class PaymentForm extends StatefulWidget {
   final Map<String, dynamic> car;
@@ -25,6 +25,7 @@ class _PaymentFormState extends State<PaymentForm> {
     super.initState();
     _getCurrentUser();
   }
+
   Future<void> _getCurrentUser() async {
     try {
       _currentUser = FirebaseAuth.instance.currentUser!;
@@ -40,13 +41,67 @@ class _PaymentFormState extends State<PaymentForm> {
 
       if (userSnapshot.docs.isNotEmpty) {
         setState(() {
-          _userName = userSnapshot.docs.first[
-          'Name']; // Assuming 'Name' is the field for the user's name
+          _userName = userSnapshot.docs.first['Name']; // Assuming 'Name' is the field for the user's name
         });
       }
     } catch (e) {
       print('Error getting current user: $e');
     }
+  }
+
+  Future<void> _showIDCardDialog() async {
+    TextEditingController idCardController = TextEditingController();
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // User must enter ID card number to proceed
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Enter ID Card Number'),
+          content: TextField(
+            controller: idCardController,
+            keyboardType: TextInputType.number,
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+              LengthLimitingTextInputFormatter(13),
+              IDCardNumberInputFormatter(),
+            ],
+            decoration: InputDecoration(
+              hintText: 'XXXXX-XXXXXXXX',
+              labelText: 'ID Card Number',
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+            ElevatedButton(
+              child: Text('Proceed'),
+              onPressed: () {
+                String idCardNumber = idCardController.text;
+                // Validate ID card number format
+                if (RegExp(r'^\d{5}-\d{8}$').hasMatch(idCardNumber)) {
+                  Navigator.of(context).pop(); // Close the dialog
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CardForm(
+                        car: widget.car,
+                        userName: _userName,
+                        days: days,
+                      ),
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -110,18 +165,7 @@ class _PaymentFormState extends State<PaymentForm> {
                   ),
                   elevation: 3,
                 ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CardForm(
-                        car: widget.car,
-                        userName: _userName,
-                        days: days,
-                      ),
-                    ),
-                  );
-                },
+                onPressed: _showIDCardDialog,
                 child: Text(
                   "Make Payment Now",
                   style: TextStyle(fontSize: 18),
@@ -135,12 +179,27 @@ class _PaymentFormState extends State<PaymentForm> {
   }
 }
 
-class CardForm extends StatefulWidget {               // In this Where User can Enter his or her Card Details to make Purchase
+class IDCardNumberInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    // Insert a hyphen after the 5th digit
+    if (newValue.text.length > 5 && newValue.text[5] != '-') {
+      final text = newValue.text.replaceRange(5, 5, '-');
+      return newValue.copyWith(
+        text: text,
+        selection: TextSelection.collapsed(offset: text.length),
+      );
+    }
+    return newValue;
+  }
+}
+
+class CardForm extends StatefulWidget {
   final Map<String, dynamic> car;
   final String userName;
   final int days;
 
-  CardForm({required this.car, required this.userName,required this.days});
+  CardForm({required this.car, required this.userName, required this.days});
 
   @override
   _CardFormState createState() => _CardFormState();
@@ -240,9 +299,9 @@ class _CardFormState extends State<CardForm> {
                             return 'Please enter expiry date';
                           }
                           // Simple regex to match MM/YY format
-                          // if (!RegExp(r'^\d{2}/\d{2}$').hasMatch(value)) {
-                          //   return 'Expiry date must be in MM/YY format';
-                          // }
+                          if (!RegExp(r'^\d{2}/\d{2}$').hasMatch(value)) {
+                            return 'Expiry date must be in MM/YY format';
+                          }
                           return null;
                         },
                       ),
@@ -308,7 +367,7 @@ class _CardFormState extends State<CardForm> {
   }
 }
 
-class Ticket extends StatelessWidget {        // after Payament Ticket will genrated
+class Ticket extends StatelessWidget {
   final Map<String, dynamic> car;
   final String userName;
   final int days;

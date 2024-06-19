@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../OtherModule/Stays.dart';
+import '../screens/guidScreen.dart';
 import 'PostAppbar.dart';
 
 class KashmirPostScreen extends StatelessWidget {
@@ -130,7 +132,11 @@ class KashmirPostScreen extends StatelessWidget {
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            // Handle first button press
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Stays()),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.black,
@@ -145,7 +151,11 @@ class KashmirPostScreen extends StatelessWidget {
                         SizedBox(height: 10),
                         ElevatedButton(
                           onPressed: () {
-                            // Handle second button press
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => GuidScreen()),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.black,
@@ -155,7 +165,7 @@ class KashmirPostScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10),
                               )
                           ),
-                          child: Text('Rent Car',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
+                          child: Text('Book Tour Guid',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
                         ),
                       ],
                     )

@@ -14,7 +14,6 @@ class myapp extends StatelessWidget{
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Travel App",
-
       home: WelcomeScreen(),
     );
     throw UnimplementedError();

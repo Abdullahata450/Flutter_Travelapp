@@ -37,7 +37,6 @@ class Homepage extends StatelessWidget {
     "Map",
   ];
 
-  // List of routes for each city post screen
   List<dynamic> cityRoutes = [
     LahorePostScreen(),
     KarachipostScreen(),

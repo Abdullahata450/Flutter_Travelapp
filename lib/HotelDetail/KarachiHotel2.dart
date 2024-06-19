@@ -2,11 +2,25 @@ import 'package:flutter/material.dart';
 import '../OtherModule/Stays.dart';
 import '../theams/Sendbookingmsg.dart';
 
-class KarachiHotel2 extends StatelessWidget {
+class KarachiHotel2 extends StatefulWidget {
   final Hotel hotel;
-  TextEditingController nameController = TextEditingController();
 
   KarachiHotel2({required this.hotel});
+
+  @override
+  _KarachiHotel2State createState() => _KarachiHotel2State();
+}
+
+class _KarachiHotel2State extends State<KarachiHotel2> {
+  TextEditingController nameController = TextEditingController();
+  List<String> roomTypes = ['Standard', 'Deluxe', 'Suite'];
+  String selectedRoomType = 'Standard'; // Default selected room type
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +37,7 @@ class KarachiHotel2 extends StatelessWidget {
               padding: EdgeInsets.all(16.0),
               color: Colors.blue,
               child: Text(
-                hotel.name, // Use actual hotel name
+                widget.hotel.name, // Use actual hotel name
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24.0,
@@ -38,7 +52,7 @@ class KarachiHotel2 extends StatelessWidget {
               height: 200,
               fit: BoxFit.cover,
             ),
-            SizedBox(height: 10,),
+            SizedBox(height: 10),
             Image.asset(
               'assets/images/karh4.png', // Replace with actual image asset path
               height: 200,
@@ -73,15 +87,13 @@ class KarachiHotel2 extends StatelessWidget {
                   Text(
                     'Standard Room \n Free Parking \n Gym Facilities', // Use actual nearby attractions
                     style: TextStyle(
-                        fontSize: 17,
-                        color: Colors.grey.shade900
+                      fontSize: 17,
+                      color: Colors.grey.shade900,
                     ),
                   ),
                 ],
               ),
             ),
-
-
             // Reserve Button
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -113,23 +125,41 @@ class KarachiHotel2 extends StatelessWidget {
                                 ),
                                 keyboardType: TextInputType.phone,
                               ),
+                              SizedBox(height: 16.0),
+                              DropdownButtonFormField(
+                                value: selectedRoomType,
+                                onChanged: (String? value) {
+                                  setState(() {
+                                    selectedRoomType = value!;
+                                  });
+                                },
+                                items: roomTypes.map((String roomType) {
+                                  return DropdownMenuItem<String>(
+                                    value: roomType,
+                                    child: Text(roomType),
+                                  );
+                                }).toList(),
+                                decoration: InputDecoration(
+                                  labelText: 'Room Type',
+                                  border: OutlineInputBorder(),
+                                ),
+                              ),
                             ],
                           ),
                         ),
                         actions: <Widget>[
                           TextButton(
                             onPressed: () {
-                              String name=nameController.text;
-                              String msg="Hello ${name} 👋\nCongratulations on reserving our hotel booking Looking Forward To See You! 😀🎉";
+                              String name = nameController.text;
+                              String msg = "Hello $name 👋\nCongratulations on reserving our hotel booking. Looking forward to seeing you! 😀🎉";
                               sendbookMessage(msg);
+                              Navigator.of(context).pop();
                             },
                             child: Text('Confirm'),
                           ),
                           TextButton(
                             onPressed: () {
-                              // Handle reservation cancellation
                               Navigator.of(context).pop();
-                              // Add your logic for canceling the reservation here
                             },
                             child: Text('Cancel'),
                           ),

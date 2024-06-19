@@ -5,13 +5,29 @@ import '../OtherModule/Stays.dart';
 import '../theams/Sendbookingmsg.dart';
 import 'package:http/http.dart' as http;
 
-
-class LahoreHotel2 extends StatelessWidget {
+class LahoreHotel2 extends StatefulWidget {
   final Hotel hotel;
 
   LahoreHotel2({required this.hotel});
 
+  @override
+  _LahoreHotel2State createState() => _LahoreHotel2State();
+}
+
+class _LahoreHotel2State extends State<LahoreHotel2> {
   TextEditingController nameController = TextEditingController();
+  TextEditingController peopleController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  List<String> roomTypes = ['Standard', 'Deluxe', 'Suite'];
+  String selectedRoomType = 'Standard'; // Default selected room type
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    peopleController.dispose();
+    phoneController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +44,7 @@ class LahoreHotel2 extends StatelessWidget {
               padding: EdgeInsets.all(16.0),
               color: Colors.blue,
               child: Text(
-                hotel.name, // Use actual hotel name
+                widget.hotel.name, // Use actual hotel name
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24.0,
@@ -43,7 +59,7 @@ class LahoreHotel2 extends StatelessWidget {
               height: 200,
               fit: BoxFit.cover,
             ),
-            SizedBox(height: 10,),
+            SizedBox(height: 10),
             Image.asset(
               'assets/images/lhrh6.jpg', // Replace with actual image asset path
               height: 200,
@@ -76,23 +92,20 @@ class LahoreHotel2 extends StatelessWidget {
                   ),
                   SizedBox(height: 8.0), // Add spacing between text and subtitle
                   Text(
-                    'Superior Queen Room \n BreakFast Included \n All Types of Rooms Avliable', // Use actual nearby attractions
+                    'Superior Queen Room \n Breakfast Included \n All Types of Rooms Available', // Use actual nearby attractions
                     style: TextStyle(
-                        fontSize: 17,
-                        color: Colors.grey.shade900
+                      fontSize: 17,
+                      color: Colors.grey.shade900,
                     ),
                   ),
                 ],
               ),
             ),
-
-
             // Reserve Button
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: ElevatedButton(
                 onPressed: () {
-                  // Show the reservation dialog
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -108,16 +121,37 @@ class LahoreHotel2 extends StatelessWidget {
                                 ),
                               ),
                               TextField(
+                                controller: peopleController,
                                 decoration: InputDecoration(
                                   labelText: 'Number of People',
                                 ),
                                 keyboardType: TextInputType.number,
                               ),
                               TextField(
+                                controller: phoneController,
                                 decoration: InputDecoration(
                                   labelText: 'Phone Number',
                                 ),
                                 keyboardType: TextInputType.phone,
+                              ),
+                              SizedBox(height: 16.0),
+                              DropdownButtonFormField(
+                                value: selectedRoomType,
+                                onChanged: (String? value) {
+                                  setState(() {
+                                    selectedRoomType = value!;
+                                  });
+                                },
+                                items: roomTypes.map((String roomType) {
+                                  return DropdownMenuItem<String>(
+                                    value: roomType,
+                                    child: Text(roomType),
+                                  );
+                                }).toList(),
+                                decoration: InputDecoration(
+                                  labelText: 'Room Type',
+                                  border: OutlineInputBorder(),
+                                ),
                               ),
                             ],
                           ),
@@ -125,17 +159,16 @@ class LahoreHotel2 extends StatelessWidget {
                         actions: <Widget>[
                           TextButton(
                             onPressed: () {
-                              String name=nameController.text;
-                              String msg="Hello ${name} 👋\nCongratulations on reserving our ${hotel.name} booking Looking Forward To See You! 😀🎉";
+                              String name = nameController.text;
+                              String msg = "Hello $name 👋\nCongratulations on reserving our ${widget.hotel.name} booking. Looking forward to seeing you! 😀🎉";
                               sendbookMessage(msg);
+                              Navigator.of(context).pop();
                             },
                             child: Text('Confirm'),
                           ),
                           TextButton(
                             onPressed: () {
-                              // Handle reservation cancellation
                               Navigator.of(context).pop();
-                              // Add your logic for canceling the reservation here
                             },
                             child: Text('Cancel'),
                           ),
@@ -143,11 +176,9 @@ class LahoreHotel2 extends StatelessWidget {
                       );
                     },
                   );
-
                 },
                 child: Text('Reserve'),
               ),
-
             ),
           ],
         ),
@@ -155,5 +186,3 @@ class LahoreHotel2 extends StatelessWidget {
     );
   }
 }
-
-
